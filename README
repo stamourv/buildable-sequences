@@ -1,0 +1,7 @@
+Buildable Sequences
+
+Provides the `gen:buildable' generic interface that, when combined with
+`gen:sequence', is enough to write a generic version of `map', `filter', etc.
+
+Allows for sequences that are built compositionally (e.g. lists) or allocated
+then modified in-place (e.g. vectors).
