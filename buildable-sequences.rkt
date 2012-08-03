@@ -76,6 +76,8 @@
 ;;  take? drop? add-between? remove-duplicates? filter-map? filter-not?
 ;;  shuffle? argmin/argmax? make-list?
 
+(module+ test
+  (require rackunit))
 
 (struct kons (kar kdr) #:transparent
         #:methods gen:buildable
@@ -86,8 +88,11 @@
          (define (stream-first  x) (kons-kar x))
          (define (stream-rest   x) (kons-kdr x))])
 
-(displayln (map/g add1 (kons 1 (kons 2 '()))))
-(displayln (filter/g even? (kons 1 (kons 2 '()))))
+(module+ test
+  (check-equal? (map/g add1 (kons 1 (kons 2 '())))
+                (kons 2 (kons 3 '())))
+  (check-equal? (filter/g even? (kons 1 (kons 2 '())))
+                (kons 2 '())))
 
 (struct vektor (v) #:transparent
         #:methods gen:buildable
@@ -123,5 +128,9 @@
          (define (finalize-builder x)
            (vektor (list->vector (vektor-list-builder-l x))))])
 
-(displayln (map/g add1 (vektor '#(1 2 3))))
-(displayln (filter/g even? (vektor '#(1 2 3))))
+
+(module+ test
+  (check-equal? (map/g add1 (vektor '#(1 2 3)))
+                (vektor '#(2 3 4)))
+  (check-equal? (filter/g even? (vektor '#(1 2 3)))
+                (vektor '#(2))))
