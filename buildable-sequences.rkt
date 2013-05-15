@@ -6,6 +6,15 @@
 ;; i.e. sequences that also know how to build themselves
 ;; That's all we need for a generic map, filter, etc.
 
+;; TODO take a closer look at Christophe Rhodes's proposal for CL
+;;  (www.doc.gold.ac.uk/~mas01cr/papers/ilc2007/sequences-20070301.pdf‎)
+;;  In particular, his `make-sequence-like' method may be nicer than
+;;  `get-builder' + `finalize-builder' + `get-size-hint'. OTOH, it doesn't
+;;  look like his proposal allows for incremental building (initial contents
+;;  need to all be passed in), and seems to alwasy require allocating an
+;;  intermediate data structure to hold the initial contents. His interface
+;;  is simple, though.
+
 (define-generics buildable
   #:defined-table buildable-defined-table
   ;; either you define these
